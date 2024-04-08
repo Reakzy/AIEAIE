@@ -21,13 +21,15 @@ import androidx.compose.ui.unit.dp
 import com.supdevinci.aieaie.model.response.GeneratedAnswer
 import com.supdevinci.aieaie.ui.theme.AIEAIETheme
 import com.supdevinci.aieaie.viewmodel.OpenAiViewModel
-
 class MainActivity : ComponentActivity() {
     private val openAiViewModel = OpenAiViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         openAiViewModel.fetchMessages()
+
+        // Création de la DB et insert des données par défaut
+        openAiViewModel.getOpenAiConversationRoom(this)
         setContent {
             AIEAIETheme {
                 Surface(

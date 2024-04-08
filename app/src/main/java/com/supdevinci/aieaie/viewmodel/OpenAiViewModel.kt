@@ -1,13 +1,18 @@
 package com.supdevinci.aieaie.viewmodel
 
+import android.content.Context
 import android.util.Log
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.supdevinci.aieaie.database.OpenAiDatabase
+import com.supdevinci.aieaie.entity.OpenAiEntity
 import com.supdevinci.aieaie.model.OpenAiMessageBody
 import com.supdevinci.aieaie.model.request.BodyToSend
 import com.supdevinci.aieaie.model.response.GeneratedAnswer
 import com.supdevinci.aieaie.repository.OpenAiRepository
+import com.supdevinci.aieaie.repository.OpenAiRoomRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -29,5 +34,16 @@ class OpenAiViewModel : ViewModel() {
                 Log.e("Fetch Contact List : ", e.message.toString())
             }
         }
+    }
+
+
+    fun getOpenAiConversationRoom(context: Context){
+        viewModelScope.launch(Dispatchers.IO) {
+            val database = OpenAiDatabase.getDatabase(context, this)
+            val repository = OpenAiRoomRepository(database.openAiDao())
+            repository.insert(OpenAiEntity("Test"))
+            println(" TESTLALALALALLALALALALAL ${repository.getConversations.asLiveData().value}")
+        }
+
     }
 }
